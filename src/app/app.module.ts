@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { Example1Component } from './components/example1/example1.component';
 import { Example2Component } from './components/example2/example2.component';
 import { Example3Component } from './components/example3/example3.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const route: Routes = [
   { path: "example1", component: Example1Component },
@@ -21,7 +22,8 @@ const route: Routes = [
   ],
   imports: [
     RouterModule.forRoot(route),
-    BrowserModule
+    BrowserModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
