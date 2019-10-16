@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormUtilService } from 'src/app/service/form-util.service';
 @Component({
   selector: 'app-example2',
   templateUrl: './example2.component.html',
@@ -10,16 +11,15 @@ export class Example2Component implements OnInit {
   registerForm: FormGroup;
   submitted = false;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private formUtil: FormUtilService) { }
 
 
   ngOnInit() {
-    let a = [5];
     this.registerForm = this.formBuilder.group({
-      'firstName': ['', Validators.required],
-      'lastName': ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength.apply(null, ...a)]]
+      password: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
 
@@ -40,5 +40,9 @@ export class Example2Component implements OnInit {
 
     alert('SUCCESS!! :-)')
   }
+  hey() {
+    let a = this.formUtil.formBuilderGroup();
+    console.log("a =>", a);
 
+  }
 }
