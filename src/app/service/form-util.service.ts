@@ -11,18 +11,28 @@ export class FormUtilService {
   formBuilderGroup() {
     let param = [
       {
-        formControlName: 'FirstName',
+        formControlName: 'firstName',
+        Validation: [
+          { 'validationName': 'required', 'param': [] }
+        ]
+      },
+      {
+        formControlName: 'lastName',
+        Validation: [{ 'validationName': 'required', 'param': [] }]
+      },
+      {
+        formControlName: 'email',
         Validation: [
           { 'validationName': 'required', 'param': [] },
-          { 'validationName': 'patter', 'param': ['#$@#$#'] }]
+          { 'validationName': 'email', 'param': [] }
+        ]
       },
       {
-        formControlName: 'LastName',
-        Validation: [{ 'validationName': 'required', 'param': [] }]
-      },
-      {
-        formControlName: 'Age',
-        Validation: [{ 'validationName': 'required', 'param': [] }]
+        formControlName: 'password',
+        Validation: [
+          { 'validationName': 'required', 'param': [] },
+          { 'validationName': 'minLength', 'param': [4] }
+        ]
       }
     ]
     let fbg = {}; //formBuilderGroup
@@ -38,27 +48,31 @@ export class FormUtilService {
   validatorBuilder(mainParam) {
     // Validation: [{ 'validationName': 'pattern', 'param': [p1,p2] },]
     let formValidation = [];
-    // for (let obj of mainParam) {
-    for (let i = 0; i < mainParam.length; i++) {
-      if (mainParam[i].validationName) {
-        if (mainParam[i].param.length == 0)
-          formValidation.push(Validators.required)
-        if (mainParam[i].param.length == 1)
-          formValidation.push(Validators[mainParam[i].validationName](mainParam[i].param[0]))
-        else if (mainParam[i].param.length == 2)
-          formValidation.push(Validators[mainParam[i].validationName](mainParam[i].param[0], mainParam[i].param[1]))
-        else if (mainParam[i].param.length == 3)
-          formValidation.push(Validators[mainParam[i].validationName](mainParam[i].param[0], mainParam[i].param[1], mainParam[i].param[2]))
-        else if (mainParam[i].param.length == 4)
-          formValidation.push(Validators[mainParam[i].validationName](mainParam[i].param[0], mainParam[i].param[1], mainParam[i].param[2], mainParam[i].param[3]))
-        else if (mainParam[i].param.length == 5)
-          formValidation.push(Validators[mainParam[i].validationName](mainParam[i].param[0], mainParam[i].param[1], mainParam[i].param[2], mainParam[i].param[3], mainParam[i].param[4]))
-        else if (mainParam[i].param.length == 6)
-          formValidation.push(Validators[mainParam[i].validationName](mainParam[i].param[0], mainParam[i].param[1], mainParam[i].param[2], mainParam[i].param[3], mainParam[i].param[4], mainParam[i].param[5]))
+    let param1: any;
+    let param2: any;
+    let param3: any;
+    let param4: any;
+    let CustomValidatorName: any
+
+    var v = {
+      required: Validators.required,
+      email: Validators.email,
+      min: Validators.min(param1),
+      max: Validators.max(param1),
+      maxLength: Validators.maxLength(param1),
+      minLength: Validators.minLength(param1),
+      null: Validators.nullValidator,
+      pattern: Validators.pattern(param1),
+      requiredTrue: Validators.requiredTrue,
+      customValidation: CustomValidatorName
+    }
+
+    for (let obj of mainParam) {
+      if (obj.validationName in v) {
+        obj.param.length > 0 ? param1 = obj.param[0] : ''
+        formValidation.push(v[obj.validationName])
       }
     }
-    return formValidation;
+    return formValidation
   }
-
-
 }

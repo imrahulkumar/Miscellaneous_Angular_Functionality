@@ -15,12 +15,17 @@ export class Example2Component implements OnInit {
 
 
   ngOnInit() {
-    this.registerForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(3)]]
-    });
+    let a = this.formUtil.formBuilderGroup();
+    // this.registerForm = this.formBuilder.group({
+    //   firstName: ['', Validators.required],
+    //   lastName: ['', Validators.required],
+    //   email: ['', [Validators.required, Validators.email]],
+    //   password: ['', [Validators.required, Validators.minLength(3)]]
+    // });
+
+    this.registerForm = this.formBuilder.group(
+      this.formUtil.formBuilderGroup()
+    );
   }
 
 
